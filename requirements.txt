@@ -2,7 +2,3 @@ fastapi
 uvicorn
 jinja2
 requests
-pyttsx3
-sounddevice
-SpeechRecognition
-numpy
