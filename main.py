@@ -1,70 +1,4 @@
-# import speech_recognition as sr
-# import pyttsx3
-# import requests
-# import json
 
-# # Replace with your Groq API key
-# GROQ_API_KEY = "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"
-
-# # Chat settings
-# GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions"
-# MODEL = "llama3-8b-8192"  # or llama3-70b-8192, mixtral-8x7b-32768, etc.
-
-# # Setup TTS
-# engine = pyttsx3.init()
-
-# def speak(text):
-#     print("🤖:", text)
-#     engine.say(text)
-#     engine.runAndWait()
-
-# def listen():
-#     recognizer = sr.Recognizer()
-#     with sr.Microphone() as source:
-#         print("\n🎤 Listening...")
-#         recognizer.adjust_for_ambient_noise(source)
-#         audio = recognizer.listen(source)
-#     try:
-#         text = recognizer.recognize_google(audio)
-#         print("🗣️ You:", text)
-#         return text
-#     except sr.UnknownValueError:
-#         speak("Sorry, I couldn't understand.")
-#         return None
-#     except sr.RequestError:
-#         speak("Speech service error.")
-#         return None
-
-# def get_groq_response(prompt):
-#     headers = {
-#         "Authorization": f"Bearer {GROQ_API_KEY}",
-#         "Content-Type": "application/json"
-#     }
-#     data = {
-#         "model": MODEL,
-#         "messages": [
-#             {"role": "system", "content": "You are a helpful assistant."},
-#             {"role": "user", "content": prompt}
-#         ]
-#     }
-
-#     try:
-#         response = requests.post(GROQ_API_URL, headers=headers, json=data)
-#         result = response.json()
-#         return result["choices"][0]["message"]["content"].strip()
-#     except Exception as e:
-#         return f"Error from Groq: {str(e)}"
-
-# # Main loop
-# if __name__ == "__main__":
-#     while True:
-#         user_input = listen()
-#         if user_input:
-#             if "exit" in user_input.lower():
-#                 speak("Goodbye!")
-#                 break
-#             response = get_groq_response(user_input)
-#             speak(response)
 from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
@@ -83,7 +17,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
 # Groq API details
-GROQ_API_KEY = "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"
+GROQ_API_KEY = "YOUR GROQ API"
 GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions"
 MODEL = "llama3-8b-8192"
 
