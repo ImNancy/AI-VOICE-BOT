@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Voice ChatBot</title>
+  <link rel="stylesheet" href="/static/style.css">
+<script defer src="/static/script.js"></script>
+
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🎙️ Talk to Your AI Buddy</h1>
+      <p>Ask anything via text or voice. </p>
+    </header>
+
+    <div id="chat" class="chatbox">
+      <!-- Chat messages will appear here -->
+    </div>
+
+    <div class="chat-input-area">
+      <input type="text" id="userInput" placeholder="Type your message..." />
+      <button onclick="sendMessage()">Send</button>
+      <button onclick="startRecognition()" id="micBtn">🎤</button>
+    </div>
+  </div>
+</body>
+</html>
