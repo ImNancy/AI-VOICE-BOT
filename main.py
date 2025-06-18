@@ -14,7 +14,7 @@ templates = Jinja2Templates(directory="templates")
 
 
 # Groq API details
-GROQ_API_KEY = "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"
+GROQ_API_KEY = "YOUR_API_KEY"
 GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions"
 MODEL = "llama3-8b-8192"
 
