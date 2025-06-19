@@ -19,11 +19,12 @@ if not groq_api_key:
     # Use the hardcoded key as fallback
     groq_api_key = "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"
 
-if not groq_api_key:
-    app.logger.error("GROQ_API_KEY is not set or is empty")
-    groq_client = None
-else:
+try:
     groq_client = Groq(api_key=groq_api_key)
+    app.logger.info("Groq client initialized successfully")
+except Exception as e:
+    app.logger.error(f"Failed to initialize Groq client: {str(e)}")
+    groq_client = None
 
 @app.route('/')
 def index():
@@ -42,31 +43,41 @@ def chat():
 
         # Check if Groq client is available
         if not groq_client:
-            return jsonify({'error': 'Groq API key not configured or invalid'}), 500
+            app.logger.error("Groq client is not available")
+            return jsonify({'error': 'Groq API service not available', 'success': False}), 500
 
         # Create chat completion with Groq
-        chat_completion = groq_client.chat.completions.create(
-            messages=[
-                {
-                    "role": "system",
-                    "content": "You are a helpful AI assistant. Provide concise, friendly responses suitable for voice conversation. Keep responses conversational and not too long."
-                },
-                {
-                    "role": "user",
-                    "content": user_message
-                }
-            ],
-            model="llama3-8b-8192",
-            temperature=0.7,
-            max_tokens=150
-        )
+        try:
+            chat_completion = groq_client.chat.completions.create(
+                messages=[
+                    {
+                        "role": "system",
+                        "content": "You are a helpful AI assistant. Provide concise, friendly responses suitable for voice conversation. Keep responses conversational and not too long."
+                    },
+                    {
+                        "role": "user",
+                        "content": user_message
+                    }
+                ],
+                model="llama3-8b-8192",
+                temperature=0.7,
+                max_tokens=150
+            )
 
-        ai_response = chat_completion.choices[0].message.content
+            ai_response = chat_completion.choices[0].message.content
+            app.logger.info(f"AI response generated successfully for message: {user_message[:50]}...")
 
-        return jsonify({
-            'response': ai_response,
-            'success': True
-        })
+            return jsonify({
+                'response': ai_response,
+                'success': True
+            })
+            
+        except Exception as groq_error:
+            app.logger.error(f"Groq API error: {str(groq_error)}")
+            return jsonify({
+                'error': f'AI service error: {str(groq_error)}',
+                'success': False
+            }), 500
 
     except Exception as e:
         app.logger.error(f"Error in chat endpoint: {str(e)}")
