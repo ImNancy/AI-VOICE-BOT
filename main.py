@@ -34,18 +34,35 @@ def index():
 @app.route('/api/chat', methods=['POST'])
 def chat():
     """Handle chat requests and return AI responses"""
+    app.logger.info("Chat endpoint called")
+    
     try:
+        # Get and validate request data
+        if not request.is_json:
+            app.logger.error("Request is not JSON")
+            return jsonify({'error': 'Request must be JSON', 'success': False}), 400
+            
         data = request.get_json()
+        app.logger.info(f"Received data: {data}")
+        
+        if not data:
+            app.logger.error("No JSON data received")
+            return jsonify({'error': 'No data received', 'success': False}), 400
+            
         user_message = data.get('message', '').strip()
+        app.logger.info(f"User message: {user_message}")
 
         if not user_message:
-            return jsonify({'error': 'Message is required'}), 400
+            app.logger.error("Empty message received")
+            return jsonify({'error': 'Message is required', 'success': False}), 400
 
         # Check if Groq client is available
         if not groq_client:
             app.logger.error("Groq client is not available")
             return jsonify({'error': 'Groq API service not available', 'success': False}), 500
 
+        app.logger.info("Calling Groq API...")
+        
         # Create chat completion with Groq
         try:
             chat_completion = groq_client.chat.completions.create(
@@ -65,24 +82,27 @@ def chat():
             )
 
             ai_response = chat_completion.choices[0].message.content
-            app.logger.info(f"AI response generated successfully for message: {user_message[:50]}...")
+            app.logger.info(f"AI response generated successfully: {ai_response[:100]}...")
 
-            return jsonify({
+            response_data = {
                 'response': ai_response,
                 'success': True
-            })
+            }
+            app.logger.info(f"Returning response: {response_data}")
+            
+            return jsonify(response_data)
             
         except Exception as groq_error:
-            app.logger.error(f"Groq API error: {str(groq_error)}")
+            app.logger.error(f"Groq API error: {str(groq_error)}", exc_info=True)
             return jsonify({
                 'error': f'AI service error: {str(groq_error)}',
                 'success': False
             }), 500
 
     except Exception as e:
-        app.logger.error(f"Error in chat endpoint: {str(e)}")
+        app.logger.error(f"Unexpected error in chat endpoint: {str(e)}", exc_info=True)
         return jsonify({
-            'error': f'Failed to get AI response: {str(e)}',
+            'error': f'Server error: {str(e)}',
             'success': False
         }), 500
 
