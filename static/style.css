@@ -495,40 +495,40 @@ body {
         height: 100vh;
         border-radius: 0;
     }
-
+    
     .chat-header {
         padding: 1rem;
     }
-
+    
     .header-title h1 {
         font-size: 1.25rem;
     }
-
+    
     .chat-input-container {
         padding: 1rem;
     }
-
+    
     .voice-controls {
         padding: 1.5rem 1rem;
     }
-
+    
     .control-panel {
         gap: 1.5rem;
     }
-
+    
     .voice-btn {
         width: 70px;
         height: 70px;
     }
-
+    
     .voice-btn i {
         font-size: 1.5rem;
     }
-
+    
     .message {
         max-width: 90%;
     }
-
+    
     .error-toast {
         top: 1rem;
         right: 1rem;
@@ -543,16 +543,16 @@ body {
         gap: 0.5rem;
         text-align: center;
     }
-
+    
     .voice-btn {
         width: 60px;
         height: 60px;
     }
-
+    
     .voice-btn i {
         font-size: 1.25rem;
     }
-
+    
     .btn-text {
         font-size: 0.7rem;
     }
