@@ -1,5 +1,3 @@
-js
-
 
 const chat = document.getElementById("chat");
 const userInput = document.getElementById("userInput");
