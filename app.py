@@ -15,7 +15,7 @@ templates = Jinja2Templates(directory="templates")
 
 
 # Groq API details
-GROQ_API_KEY = "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"
+GROQ_API_KEY = ""
 GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions"
 MODEL = "llama3-8b-8192"
 
@@ -65,3 +65,4 @@ async def chat_endpoint(user_input: ChatInput):
 @app.get("/test", response_class=HTMLResponse)
 async def test_page():
     return HTMLResponse("<h1>✅ FastAPI Test Route Works!</h1>")
+
